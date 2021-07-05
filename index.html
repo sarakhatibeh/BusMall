@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,27 +9,39 @@
     <link rel="stylesheet" href="style/style.css">
     <title>BusMall</title>
 </head>
+
 <body>
-<header>
-    <h1> BusMall</h1>
-</header>
-<main>
-    <p>You can vote your favorite products 25 times </p>
-    <br>
-    <br>
-    <br>
-    <span id='attempts'></span>
-    <div id='container'>
-     <img id='leftImg' src="" alt="">
-     <img id='middil' src="" alt="">
-     <img id='rightImg' src="" alt="">
-    </div>
-<br>
-<br>
+    <header>
+        <h1> BusMall</h1>
+    </header>
+    <main>
+        <p>You can vote your favorite products 25 times </p>
+        <br>
+        <br>
+        <br>
+        <span id='attempts'></span>
 
-<ul id='result'></ul>
 
-</main>
- <script src="js/apps.js"></script>
+        <button type="button" id="end">Result</button>
+        <div id='conTwo'>
+
+            <div id='container'>
+                <img id='leftImg' src="" alt="">
+                <img id='middil' src="" alt="">
+                <img id='rightImg' src="" alt="">
+            </div>
+        </div>
+
+        <br>
+        <br>
+
+        <ul id='result'></ul>
+<canvas id='myChart'>   </canvas>
+    </main>
+    
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script src="js/apps.js"></script>
 </body>
+
 </html>

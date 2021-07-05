@@ -5,9 +5,13 @@ let leftImgEl = document.getElementById('leftImg');
 let middilImgEl = document.getElementById('middil');
 let rightImgEl = document.getElementById('rightImg');
 let ulEl = document.getElementById('result');
-
+let checkArray = [];
 let attempts = 1;
 let maxAttempts = 25;
+let productsName=[];
+let votes1=[];
+let view1=[];
+
 
 
 
@@ -20,8 +24,8 @@ function ProductsImg(productName) {
     this.img = 'picture/' + productName;
     this.votes = 0;
     this.views = 0;
-
     products.push(this);
+    productsName.push(this.pName);
 
 }
 
@@ -30,9 +34,9 @@ let pImg = ['bag.jpg', 'banana.jpg', 'bathroom.jpg', 'boots.jpg', 'breakfast.jpg
 
 for (let i = 0; i < pImg.length; i++) {
     new ProductsImg(pImg[i]);
-}
+};
 
-console.log(products);
+// console.log(products);
 
 
 function randomIndex() {
@@ -50,15 +54,79 @@ function renderRandomImg() {
     middilIndex = randomIndex();
     rightIndex = randomIndex();
 
-    while (leftIndex === middilIndex || leftIndex === rightIndex || middilIndex===rightIndex ) {
+    while (leftIndex === middilIndex || leftIndex === rightIndex || middilIndex === rightIndex) {
         leftIndex = randomIndex();
         rightIndex = randomIndex();
+        middilIndex = randomIndex();
+
     }
+
+
+    while (checkArray.includes(leftIndex)) {
+        leftIndex = randomIndex();
+
+    }
+   
+ 
+
+    while (checkArray.includes(rightIndex)) {
+        rightIndex = randomIndex();
+
+    }
+   
+    while(checkArray.includes(middilIndex)){
+        middilIndex=randomIndex();
+    }
+
+    checkArray = [];
+    checkArray.push(leftIndex, middilIndex, rightIndex);
+
+
+ 
+
+
+
+
+
+
+
+
+    // console.log(checkArray,'saraBasem');
+
+    // for (let i = 1; i < attempts.length; i++) {
+
+    //     if (leftIndex[i - 1] === leftIndex[i] || leftIndex[i - 1] === middilIndex[i] || leftIndex[i - 1] === rightIndex[i]) {
+
+    //         // leftIndex[i] = randomIndex();
+    //         rightIndex[i] = randomIndex();
+    //         middilIndex[i] = randomIndex();
+
+
+    //     }
+
+    //     else if (middilIndex[i - 1] === middilIndex[i] || middilIndex[i - 1] === leftIndex[i] || middilIndex[i - 1] === rightIndex[i]) {
+    //         // middilIndex[i] = randomIndex();
+    //         rightIndex[i] = randomIndex();
+    //         leftIndex[i] = randomIndex();
+
+
+
+
+    //     }
+
+    //     else if  (rightIndex[i - 1] === rightIndex[i] || rightIndex[i - 1] === leftIndex[i] || rightIndex[i - 1] === middilIndex[i]) {
+    //         // rightIndex[i] = randomIndex();
+    //         leftIndex[i] = randomIndex();
+    //         middilIndex[i] = randomIndex();
+
+    //     }
+
+    // }
 
     leftImgEl.setAttribute('src', products[leftIndex].img);
     middilImgEl.setAttribute('src', products[middilIndex].img);
     rightImgEl.setAttribute('src', products[rightIndex].img);
-    console.log(pImg[1] + 'sara');
+    // console.log(pImg[1] + 'sara');
     console.log(leftImgEl);
     leftImgEl.setAttribute('alt', products[leftIndex].pName);
     middilImgEl.setAttribute('alt', products[middilIndex].pName);
@@ -86,7 +154,6 @@ middilImgEl.addEventListener('click', handelClicks);
 rightImgEl.addEventListener('click', handelClicks);
 
 
-
 function handelClicks(event) {
     attempts++;
     if (attempts <= maxAttempts) {
@@ -105,24 +172,112 @@ function handelClicks(event) {
         renderRandomImg();
 
     }
-        else {
+    else {
+        let container2 = document.getElementById('conTwo');
+        let end = document.getElementById('end');
+        end.addEventListener('click', endResult)
+
+        function endResult(event) {
+
             let ulEl = document.getElementById('result');
+
             for (let i = 0; i < products.length; i++) {
                 let liEl = document.createElement('li');
                 liEl.textContent = `${products[i].pName} had ${products[i].votes} voted, and was seen ${products[i].views} times`
-                
+                // ulEl.appendChild(end);
                 ulEl.appendChild(liEl);
+                votes1.push(products[i].votes);
+                view1.push(products[i].views);
+
+
+
             }
-            leftImgEl.removeEventListener('click', handelClicks);
-            middilImgEl.removeEventListener('click', handelClicks);
-            rightImgEl.removeEventListener('click', handelClicks);
+            end.removeEventListener('click', endResult)
+            chartRender();
+
         }
+        leftImgEl.removeEventListener('click', handelClicks);
+        middilImgEl.removeEventListener('click', handelClicks);
+        rightImgEl.removeEventListener('click', handelClicks);
+
+    }
 
 
-   
+
 
 }
 
+
+function chartRender(){
+
+    let ctx = document.getElementById('myChart').getContext('2d');
+    let myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: productsName,
+            datasets: [{
+                label: '# of Votes',
+                data:votes1 ,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }
+        
+        , {
+            label: '# of viwes',
+            data:view1 ,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }
+        
+        ]
+        },
+
+
+        
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+
+
+
+
+}
 
 
 
