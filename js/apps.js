@@ -8,15 +8,49 @@ let ulEl = document.getElementById('result');
 let checkArray = [];
 let attempts = 1;
 let maxAttempts = 25;
-let productsName=[];
-let votes1=[];
-let view1=[];
-
-
-
-
-
+let productsName = [];
+let votes1 = [];
+let view1 = [];
 let products = [];
+
+
+function saveToLocalStorge() {
+    let data = JSON.stringify(products);
+    localStorage.setItem('Products', data);
+}
+
+
+
+
+function readFromLocalStorge() {
+    let stringObj = localStorage.getItem('Products');
+    let normalObj = JSON.parse(stringObj);
+    if (normalObj !== null) {
+        products = normalObj;
+        
+
+
+    }
+    // renderRandomImg();
+    // handelClicks();
+    // chartRender();
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 function ProductsImg(productName) {
 
@@ -36,7 +70,19 @@ for (let i = 0; i < pImg.length; i++) {
     new ProductsImg(pImg[i]);
 };
 
-// console.log(products);
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 function randomIndex() {
@@ -54,7 +100,7 @@ function renderRandomImg() {
     middilIndex = randomIndex();
     rightIndex = randomIndex();
 
-    while (leftIndex === middilIndex || leftIndex === rightIndex || middilIndex === rightIndex) {
+    while (leftIndex === middilIndex || leftIndex === rightIndex     || middilIndex === rightIndex   || checkArray.includes(leftIndex)||checkArray.includes(rightIndex) || checkArray.includes(middilIndex) ) {
         leftIndex = randomIndex();
         rightIndex = randomIndex();
         middilIndex = randomIndex();
@@ -62,27 +108,27 @@ function renderRandomImg() {
     }
 
 
-    while (checkArray.includes(leftIndex)) {
-        leftIndex = randomIndex();
+    // while (checkArray.includes(leftIndex)) {
+    //     leftIndex = randomIndex();
 
-    }
-   
- 
+    // }
 
-    while (checkArray.includes(rightIndex)) {
-        rightIndex = randomIndex();
 
-    }
-   
-    while(checkArray.includes(middilIndex)){
-        middilIndex=randomIndex();
-    }
+
+    // while (checkArray.includes(rightIndex)) {
+    //     rightIndex = randomIndex();
+
+    // }
+
+    // while (checkArray.includes(middilIndex)) {
+    //     middilIndex = randomIndex();
+    // }
 
     checkArray = [];
     checkArray.push(leftIndex, middilIndex, rightIndex);
 
 
- 
+
 
 
 
@@ -144,8 +190,7 @@ function renderRandomImg() {
     products[middilIndex].views++;
     products[rightIndex].views++;
 
-
-
+    // saveToLocalStorge();
 }
 renderRandomImg();
 
@@ -155,6 +200,7 @@ rightImgEl.addEventListener('click', handelClicks);
 
 
 function handelClicks(event) {
+    // ulEl.textContent = '';
     attempts++;
     if (attempts <= maxAttempts) {
         let clickedImg = event.target.id;
@@ -171,8 +217,11 @@ function handelClicks(event) {
         }
         renderRandomImg();
 
+        saveToLocalStorge();
     }
     else {
+        
+
         let container2 = document.getElementById('conTwo');
         let end = document.getElementById('end');
         end.addEventListener('click', endResult)
@@ -195,6 +244,7 @@ function handelClicks(event) {
             end.removeEventListener('click', endResult)
             chartRender();
 
+
         }
         leftImgEl.removeEventListener('click', handelClicks);
         middilImgEl.removeEventListener('click', handelClicks);
@@ -204,12 +254,11 @@ function handelClicks(event) {
 
 
 
-
 }
 
 
-function chartRender(){
-
+function chartRender() {
+    // myChart='';
     let ctx = document.getElementById('myChart').getContext('2d');
     let myChart = new Chart(ctx, {
         type: 'bar',
@@ -217,7 +266,7 @@ function chartRender(){
             labels: productsName,
             datasets: [{
                 label: '# of Votes',
-                data:votes1 ,
+                data: votes1,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -236,34 +285,34 @@ function chartRender(){
                 ],
                 borderWidth: 1
             }
-        
-        , {
-            label: '# of viwes',
-            data:view1 ,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }
-        
-        ]
+
+                , {
+                label: '# of viwes',
+                data: view1,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }
+
+            ]
         },
 
 
-        
+
         options: {
             scales: {
                 y: {
@@ -286,6 +335,7 @@ function chartRender(){
 
 
 
+readFromLocalStorge();
 
 
 
