@@ -62,24 +62,24 @@ function renderRandomImg() {
     }
 
 
-    while (checkArray.includes(leftIndex)) {
-        leftIndex = randomIndex();
+    // while (checkArray.includes(leftIndex)) {
+    //     leftIndex = randomIndex();
 
-    }
+    // }
    
  
 
-    while (checkArray.includes(rightIndex)) {
-        rightIndex = randomIndex();
+    // while (checkArray.includes(rightIndex)) {
+    //     rightIndex = randomIndex();
 
-    }
+    // }
    
-    while(checkArray.includes(middilIndex)){
-        middilIndex=randomIndex();
-    }
+    // while(checkArray.includes(middilIndex)){
+    //     middilIndex=randomIndex();
+    // }
 
-    checkArray = [];
-    checkArray.push(leftIndex, middilIndex, rightIndex);
+    // checkArray = [];
+    // checkArray.push(leftIndex, middilIndex, rightIndex);
 
 
  
@@ -193,7 +193,7 @@ function handelClicks(event) {
 
             }
             end.removeEventListener('click', endResult)
-            chartRender();
+            // chartRender();
 
         }
         leftImgEl.removeEventListener('click', handelClicks);
